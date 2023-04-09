@@ -17,3 +17,46 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+/vendor/
+node_modules/
+
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
+
+# Laravel 5 & Lumen specific
+public/storage
+public/hot
+
+# Laravel 5 & Lumen specific with changed public path
+public_html/storage
+public_html/hot
+
+storage/*.key
+/.vagrant
+/homestead
+/homestead-master
+/storage/framework/laravel-excel
+docker-compose.override.yml
+.idea/*
+!.idea/rcb-settings.xml
+.DS_Store
+
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+
+.htaccess
+!public/.htaccess
+
+logs/
+examples/~$*
+
+*.map
+*:Zone.Identifier
+
+/public/dist
+/public/mix-manifest.json
+
+/public/robots.txt
