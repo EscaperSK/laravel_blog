@@ -7,6 +7,7 @@ use App\Http\Requests\Post\StoreRequest;
 use App\Http\Requests\Post\UpdateRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -21,7 +22,8 @@ class PostController extends Controller
     {
 
         $categories = Category::all();
-        return view('posts/create', compact('categories'));
+        $tags = Tag::all();
+        return view('posts/create', compact('categories', 'tags'));
     }
 
     public function show(Post $post)
@@ -32,28 +34,49 @@ class PostController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
 
-        $post = Post::create($data);
+            $tagIds = $data['tags'];
 
-        return redirect()->route('posts.index');
+            unset($data['tags']);
+
+            $post = Post::create($data);
+
+            $post->tags()->attach($tagIds);
+
+            return redirect()->route('posts.index');
+
+        } catch (\Exception $exception) {
+            abort(300);
+        }
+
 
     }
 
     public function edit(Post $post)
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('posts/edit', compact('post', 'categories'));
+        return view('posts/edit', compact('post', 'categories', 'tags'));
     }
 
     public function update(UpdateRequest $request, Post $post)
     {
-        $data = $request->validated();
+        try {
+            $data = $request->validated();
+            $tagIds = $data['tags'];
+            unset($data['tags']);
+            $post->tags()->detach();
+            $post->update($data);
+            $post->tags()->attach($tagIds);
 
-        $post->update($data);
+            return redirect()->route('posts.index');
+        } catch (\Exception $exception) {
+            abort(300);
+        }
 
-        return redirect()->route('posts.index');
     }
 
     public function delete(Post $post)

@@ -24,7 +24,9 @@ class UpdateRequest extends FormRequest
         return [
             'title' => 'string',
             'text' => 'string',
-            'category_id' => ''
+            'category_id' => '',
+            'tags' => 'nullable|array',
+            'tags.*' => 'integer|exists:tags,id'
         ];
     }
 }

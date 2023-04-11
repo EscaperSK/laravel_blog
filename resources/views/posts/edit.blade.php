@@ -21,6 +21,14 @@
                 @endforeach
             </select>
         </div>
+        <div>
+            <label for="tags" class="form-label">tags</label>
+            <select name="tags[]" multiple="multiple" id="tags">
+                @foreach ($tags as $tag)
+                    <option value="{{ $tag->id }}">{{ $tag->title }}</option>
+                @endforeach
+            </select>
+        </div>
 
 
         <button type="submit">Обновить</button>
