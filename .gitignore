@@ -60,3 +60,4 @@ examples/~$*
 /public/mix-manifest.json
 
 /public/robots.txt
+logs/custom.log

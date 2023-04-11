@@ -9,13 +9,15 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
     public function index()
     {
+        $current_user = Auth::user();
         $posts = Post::all();
-        return view('posts/index', compact('posts'));
+        return view('posts/index', compact('posts', 'current_user'));
     }
 
     public function create()
@@ -36,6 +38,8 @@ class PostController extends Controller
     {
         try {
             $data = $request->validated();
+
+            $data['user_id'] = Auth::user()->id;
 
             $tagIds = $data['tags'];
 
