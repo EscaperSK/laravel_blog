@@ -14,7 +14,8 @@
         </div>
         <div>
             <label for="category_id" class="form-label">category</label>
-            <select name="category_id" id="category_id">
+            <select name="category_id" id="category_id" class="form-select form-select-sm"
+                    aria-label=".form-select-sm example">
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->title }}</option>
                 @endforeach

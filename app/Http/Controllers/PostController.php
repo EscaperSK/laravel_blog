@@ -15,9 +15,8 @@ class PostController extends CustomBaseController
 {
     public function index()
     {
-        $current_user = Auth::user();
         $posts = Post::all();
-        return view('posts/index', compact('posts', 'current_user'));
+        return view('posts/index', compact('posts'));
     }
 
     public function create()
