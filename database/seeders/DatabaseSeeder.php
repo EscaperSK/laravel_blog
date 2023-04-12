@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +23,6 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'merc',
             'email' => 'merc@example.com',
-            'password' => hash('sha256', '123')]);
+            'password' => Hash::make('123')]);
     }
 }

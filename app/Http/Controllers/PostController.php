@@ -11,7 +11,7 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class PostController extends Controller
+class PostController extends CustomBaseController
 {
     public function index()
     {
@@ -22,7 +22,6 @@ class PostController extends Controller
 
     public function create()
     {
-
         $categories = Category::all();
         $tags = Tag::all();
         return view('posts/create', compact('categories', 'tags'));
@@ -36,26 +35,11 @@ class PostController extends Controller
 
     public function store(StoreRequest $request)
     {
-        try {
-            $data = $request->validated();
+        $data = $request->validated();
 
-            $data['user_id'] = Auth::user()->id;
+        $this->service->store($data);
 
-            $tagIds = $data['tags'];
-
-            unset($data['tags']);
-
-            $post = Post::create($data);
-
-            $post->tags()->attach($tagIds);
-
-            return redirect()->route('posts.index');
-
-        } catch (\Exception $exception) {
-            abort(300);
-        }
-
-
+        return redirect()->route('posts.index');
     }
 
     public function edit(Post $post)
@@ -68,19 +52,11 @@ class PostController extends Controller
 
     public function update(UpdateRequest $request, Post $post)
     {
-        try {
-            $data = $request->validated();
-            $tagIds = $data['tags'];
-            unset($data['tags']);
-            $post->tags()->detach();
-            $post->update($data);
-            $post->tags()->attach($tagIds);
+        $data = $request->validated();
 
-            return redirect()->route('posts.index');
-        } catch (\Exception $exception) {
-            abort(300);
-        }
+        $this->service->update($data, $post);
 
+        return redirect()->route('posts.index');
     }
 
     public function delete(Post $post)
