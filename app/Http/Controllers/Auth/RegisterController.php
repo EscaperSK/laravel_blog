@@ -23,6 +23,9 @@ class RegisterController extends Controller
         $data['password'] = Hash::make($data['password']);
 
         $new_user = User::create($data);
+
+        $new_user->assignRole('default');
+
         Auth::login($new_user);
         return redirect()->route('posts.index');
     }

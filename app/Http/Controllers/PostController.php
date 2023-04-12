@@ -43,10 +43,13 @@ class PostController extends CustomBaseController
 
     public function edit(Post $post)
     {
-        $categories = Category::all();
-        $tags = Tag::all();
-
-        return view('posts/edit', compact('post', 'categories', 'tags'));
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
+            $categories = Category::all();
+            $tags = Tag::all();
+            return view('posts/edit', compact('post', 'categories', 'tags'));
+        }
+        return redirect()->back();
     }
 
     public function update(UpdateRequest $request, Post $post)
@@ -60,9 +63,11 @@ class PostController extends CustomBaseController
 
     public function delete(Post $post)
     {
-        $post->delete();
-
-        return redirect()->route('posts.index');
-
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
+            $post->delete();
+            return redirect()->route('posts.index');
+        }
+        return redirect()->back();
     }
 }
